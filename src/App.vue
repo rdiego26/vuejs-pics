@@ -3,7 +3,7 @@
     <h1>{{ title }}</h1>
     <ul>
       <li v-for="photo in photos">
-        <img :src="photo.url" :alt="photo.title">
+        <img :src="photo.userImageURL" :alt="photo.tags">
       </li>
     </ul>
   </div>
@@ -15,21 +15,13 @@ export default {
   data () {
     return {
       title: 'Pics',
-      photos: [
-        {
-          url: 'http://fresh-tattoos.com/wp-content/uploads/images/baby-girls-arm-tattoo-design-3.jpg',
-          title: 'Baby Girl'
-        },
-        {
-            url: 'https://www.bigtattooplanet.com/sites/default/files/imagecache/4colwidthfull/5/attached/shiro.jpg',
-            title: 'Shiro'
-        },
-        {
-            url: 'https://s-media-cache-ak0.pinimg.com/originals/0d/72/a2/0d72a2514350ec7cd984502e7a815e5e.jpg',
-            title: 'Blondie'
-        }
-      ]
+      photos: []
     }
+  },
+  created () {
+  	this.$http.get('https://pixabay.com/api/?lang=en&image_type=photo&key=4992052-d7a700904e127de75064f88c5&q=beach&per_page=10')
+      .then(res => res.json())
+      .then(photos => this.photos = photos.hits, err => console.log(err));
   }
 }
 </script>
